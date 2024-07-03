@@ -29,4 +29,4 @@ def find_top_movies(df, input_text, top_n=5):
 
 input_text = "War Drama SHOW"
 top_movies = find_top_movies(df, input_text, top_n=5)
-print("Top recommended movies:", top_movies)
+print(top_movies)
