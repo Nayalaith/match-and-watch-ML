@@ -4,8 +4,8 @@ This project implements a movie recommendation system based on the T5 model.
 ## Installation
 
 Install the necessary Python libraries using pip:
-'''bash
-pip install -r requirements.txt
+  '''bash
+  pip install -r requirements.txt
 
 
 ## Usage
@@ -14,8 +14,8 @@ pip install -r requirements.txt
 
 To load movie embeddings from the `embeddings1.h5` file into your project:
 
-'''bash
-python src/load_data.py
+  '''bash
+  python src/load_data.py
 
 ### Movie Recommendation System
 
