@@ -7,6 +7,7 @@ Install the necessary Python libraries using pip:
 
 ```bash
 pip install -r requirements.txt
+'''
 
 ## Usage
 
