@@ -76,6 +76,7 @@ def find_top_movies(df, input_list, top_n,number_of_users):
     top_50_movies_sorted = filtered_df.sort_values(by='imdb_score', ascending=False)
     final_top_movies = top_50_movies_sorted.head(top_n)
     return final_top_movies['title'].tolist()
-input = [{'genres':['action'],'emotions':['Sadness'],'length':'medium','type': 'movie','age_certification':'+18','release_year':1990},{'genres':['war','history'],'emotions':['Sadness'],'length':'medium','type': 'movie','age_certification':'+18','release_year':1990}]
-top_movies = find_top_movies(df, input,3,2)
+input = [{'genres':['action'],'emotions':['Sadness'],'length':'medium','type': 'movie','age_certification':'+18','release_year':1990}]
+number_of_users=2
+top_movies = find_top_movies(df, input,3,number_of_users)
 print(top_movies)
