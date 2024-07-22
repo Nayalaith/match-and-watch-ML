@@ -56,23 +56,26 @@ def filter_df(df, type_filter, age_cert_filter, year_range):
     return filtered_df
 
 
-def find_top_movies(df, input, top_n=3):
+def find_top_movies(df, input_list, top_n,number_of_users):
     weights = [0.7, 0.1, 0.2]
     input_embedding= torch.zeros_like(torch.tensor(df['combined_embedding'].iloc[0]))
-    i=0
-    
-    for key,value in input.items():
-      if key in ['genres','emotions','length']:
-        input_embedding+=get_embedding(value)*weights[i]
-      i+=1
-
+    for input in input_list:
+      embedding=torch.zeros_like(torch.tensor(df['combined_embedding'].iloc[0]))
+      i=0
+      for key,value in input.items():
+        if key in ['genres','emotions','length']:
+          embedding+=get_embedding(value)*weights[i]
+        i+=1
+      input_embedding+=embedding
+    input_embedding/=number_of_users
     df['cosine_similarity'] = df['combined_embedding'].apply(lambda x: cosine_similarity(x.reshape(1, -1), input_embedding)[0][0])
+    input=input_list[0]
     top_50_movies = df.nlargest(50, 'cosine_similarity')
     filtered_df= filter_df(top_50_movies,input['type'],input['age_certification'],input['release_year'])
     filtered_df=filtered_df.nlargest(min(10,len(filtered_df)), 'cosine_similarity')
     top_50_movies_sorted = filtered_df.sort_values(by='imdb_score', ascending=False)
     final_top_movies = top_50_movies_sorted.head(top_n)
     return final_top_movies['title'].tolist()
-input = {'genres':['action'],'emotions':['Sadness'],'length':'medium','type': 'movie','age_certification':'+18','release_year':1990}
-top_movies = find_top_movies(df, input, top_n=3)
+input = [{'genres':['action'],'emotions':['Sadness'],'length':'medium','type': 'movie','age_certification':'+18','release_year':1990},{'genres':['war','history'],'emotions':['Sadness'],'length':'medium','type': 'movie','age_certification':'+18','release_year':1990}]
+top_movies = find_top_movies(df, input,3,2)
 print(top_movies)
